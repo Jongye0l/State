@@ -42,10 +42,11 @@ namespace State {
 
         public override void OnGUI() {
             Values values = GetValues();
-            GUIStyle style = new GUIStyle(GUI.skin.label);
-            style.font = FontManager.GetFont("Default").font;
-            style.fontSize = 50;
-            style.richText = true;
+            GUIStyle style = new GUIStyle(GUI.skin.label) {
+                font = FontManager.GetFont("Default").font,
+                fontSize = 50,
+                richText = true
+            };
             GUILayout.Label("State", style);
             GUILayout.BeginHorizontal();
             GUILayout.Label(values.Credit_Devloper + " : Jongyeol");
