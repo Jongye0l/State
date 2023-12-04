@@ -13,9 +13,7 @@ namespace State {
         public bool HideAutoTile = true;
         
         public static StateSettings CreateInstance() {
-            if(File.Exists(SettingPath))
-                Instance = JsonConvert.DeserializeObject<StateSettings>(File.ReadAllText(SettingPath));
-            else Instance = new StateSettings();
+            Instance = File.Exists(SettingPath) ? JsonConvert.DeserializeObject<StateSettings>(File.ReadAllText(SettingPath)) : new StateSettings();
             return Instance;
         }
 
