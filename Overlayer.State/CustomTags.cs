@@ -5,9 +5,9 @@ using Overlayer.Tags;
 
 namespace State {
     public class CustomTags {
-        
+
         private static readonly StateSettings Settings = StateSettings.Instance;
-        
+
         private static int GetStartTile() {
             return Variables.StartTile;
         }
@@ -63,7 +63,7 @@ namespace State {
                 int StartTile = GetStartTile();
                 int CurrentTile = GetCurrentTile();
                 Dictionary<HitMargin, int> HitCount = GetHitCount();
-                Values values = global::State.Main.GetValues();
+                Values values = Main.GetValues();
                 if(Settings.CurrentStart && StartTile == CurrentTile) value = values.State_Wait;
                 else if(Settings.AutoTile && IsAutoPlayTile()) {
                     value = "<color=#FF7F00>" + values.State_AutoPlayTile;
@@ -87,7 +87,7 @@ namespace State {
                 return value;
             }
             catch (Exception e) {
-                global::State.Main.Instance.Log(e);
+                Main.Instance.Log(e);
                 return "<color=#FF0000>오류</color>";
             }
         }

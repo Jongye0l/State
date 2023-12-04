@@ -9,7 +9,7 @@ namespace State {
     public class Main : OverlayerModule {
         public static Main Instance;
         public static StateSettings Settings;
-        private static Assembly Assembly;
+        private static Assembly _assembly;
 
         public Main() {
             Instance = this;
@@ -18,13 +18,12 @@ namespace State {
         public override bool IsEnabled { get; set; }
 
         public override void OnLoad() {
-            Assembly = Assembly.GetExecutingAssembly();
+            _assembly = Assembly.GetExecutingAssembly();
             Settings = StateSettings.CreateInstance();
         }
 
         public override void OnEnable() {
-            LazyPatchManager.Load(Assembly);
-            LazyPatchManager.PatchAll("State");
+            LazyPatchManager.Load(_assembly);
             TagManager.Load(typeof(CustomTags));
             TextManager.Refresh();
             IsEnabled = true;
@@ -32,18 +31,19 @@ namespace State {
 
         public override void OnDisable() {
             TagManager.Unload(typeof(CustomTags));
-            LazyPatchManager.Unload(Assembly);
+            LazyPatchManager.Unload(_assembly);
             IsEnabled = false;
             MemoryHelper.Clean(CleanOption.All);
         }
 
         public override void OnUnload() {
-            Assembly = null;
+            _assembly = null;
         }
 
         public override void OnGUI() {
             Values values = GetValues();
             GUIStyle style = new GUIStyle(GUI.skin.label);
+            style.font = FontManager.GetFont("Default").font;
             style.fontSize = 50;
             style.richText = true;
             GUILayout.Label("State", style);

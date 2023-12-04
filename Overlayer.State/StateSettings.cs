@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace State {
     public class StateSettings {
-        private static readonly string SettingPath = Path.Combine(global::State.Main.Instance.ModulePath, "Settings.json");
+        private static readonly string SettingPath = Path.Combine(Main.Instance.ModulePath, "Settings.json");
         public static StateSettings Instance;
         public bool CurrentStart = true;
         public bool Auto = true;

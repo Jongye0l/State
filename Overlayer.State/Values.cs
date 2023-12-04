@@ -1,6 +1,6 @@
 ﻿namespace State {
     public class Values {
-        public static Values Korean = new Values {
+        public static readonly Values Korean = new Values {
             State_Wait = "대기",
             State_AutoPlayTile = "자동 플레이 타일",
             State_AutoPlay = "자동 플레이",
@@ -24,7 +24,7 @@
             Credit_BugReport = "이 모듈에 대한 버그는 깃허브나 디스코드 'jongyeol_'에게 연락주세요."
         };
 
-        public static Values English = new Values {
+        public static readonly Values English = new Values {
             State_Wait = "Waiting",
             State_AutoPlayTile = "AutoPlay Tile",
             State_AutoPlay = "AutoPlay",
