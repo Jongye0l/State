@@ -1,5 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cbcpjy_005CDesktop_005Cdefault_005COverlayer_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cbcpjy_005CDesktop_005COverlayer_005Fv3_002E6_002E0_005COverlayer_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005FData_005CManaged_005CAccessibility_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005FData_005CManaged_005CAssembly_002DCSharp_002Dfirstpass_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005FData_005CManaged_005CAssembly_002DCSharp_002Edll/@EntryIndexedValue">True</s:Boolean>
@@ -158,7 +159,4 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005FData_005CManaged_005CUnityEngine_002EXRModule_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005FData_005CManaged_005CXTUtilities_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=D_003A_005CSteamLibrary_005Csteamapps_005Ccommon_005CA_0020Dance_0020of_0020Fire_0020and_0020Ice_005CMods_005COverlayer_005COverlayer_002Edll/@EntryIndexedValue">True</s:Boolean>
-	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
-  &lt;Assembly Path="D:\SteamLibrary\steamapps\common\A Dance of Fire and Ice\Mods\Overlayer\Overlayer.dll" /&gt;&#xD;
-  &lt;Assembly Path="D:\SteamLibrary\steamapps\common\A Dance of Fire and Ice\A Dance of Fire and Ice_Data\Managed\Assembly-CSharp.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer /&gt;</s:String></wpf:ResourceDictionary>

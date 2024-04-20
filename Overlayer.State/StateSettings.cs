@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace State {
+namespace Overlayer.State {
     public class StateSettings {
-        private static readonly string SettingPath = Path.Combine(Main.Instance.ModulePath, "Settings.json");
+        private static readonly string SettingPath = Path.Combine(Main.ModEntry.Path, "Settings.json");
         public static StateSettings Instance;
         public bool CurrentStart = true;
         public bool Auto = true;

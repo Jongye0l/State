@@ -1,4 +1,4 @@
-﻿namespace State {
+﻿namespace Overlayer.State {
     public class Values {
         public static readonly Values Korean = new Values {
             State_Wait = "대기",

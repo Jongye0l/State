@@ -1,53 +1,48 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using Overlayer.Core;
 using Overlayer.Core.Patches;
-using Overlayer.Core.Translation;
-using Overlayer.Modules;
+using Overlayer.Tags;
 using UnityEngine;
+using UnityModManagerNet;
 
-namespace State {
-    public class Main : OverlayerModule {
-        public static Main Instance;
+namespace Overlayer.State {
+    public class Main {
+        public static UnityModManager.ModEntry.ModLogger Logger => ModEntry.Logger;
+        public static UnityModManager.ModEntry ModEntry;
         public static StateSettings Settings;
         private static Assembly _assembly;
-
-        public Main() {
-            Instance = this;
-        }
-
-        public override bool IsEnabled { get; set; }
-
-        public override void OnLoad() {
+        private static List<LazyPatch> lazyPatches;
+        private static void Setup(UnityModManager.ModEntry modEntry) {
+            ModEntry = modEntry;
             _assembly = Assembly.GetExecutingAssembly();
+            modEntry.OnToggle = OnToggle;
+            modEntry.OnGUI = OnGUI;
             Settings = StateSettings.CreateInstance();
         }
-
-        public override void OnEnable() {
-            LazyPatchManager.Load(_assembly);
-            TagManager.Load(typeof(CustomTags));
-            TextManager.Refresh();
-            IsEnabled = true;
+        
+        private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value) {
+            if(value) {
+                LazyPatchManager.Load(_assembly);
+                TagManager.Load(typeof(CustomTags));
+                TextManager.Refresh();
+                lazyPatches = LazyPatchManager.PatchAll("StartTile");
+                foreach(LazyPatch lazyPatch in lazyPatches) lazyPatch.Locked = true;
+            } else {
+                foreach(LazyPatch lazyPatch in lazyPatches) lazyPatch.Locked = false;
+                TagManager.Unload(typeof(CustomTags));
+                LazyPatchManager.Unload(_assembly);
+            }
+            return true;
         }
 
-        public override void OnDisable() {
-            TagManager.Unload(typeof(CustomTags));
-            LazyPatchManager.Unload(_assembly);
-            IsEnabled = false;
-            MemoryHelper.Clean(CleanOption.All);
-        }
-
-        public override void OnUnload() {
-            _assembly = null;
-        }
-
-        public override void OnGUI() {
+        private static void OnGUI(UnityModManager.ModEntry modEntry) {
             Values values = GetValues();
-            GUIStyle style = new GUIStyle(GUI.skin.label) {
+            GUILayout.Label("State", new GUIStyle(GUI.skin.label) {
                 font = FontManager.GetFont("Default").font,
                 fontSize = 50,
                 richText = true
-            };
-            GUILayout.Label("State", style);
+            });
             GUILayout.BeginHorizontal();
             GUILayout.Label(values.Credit_Devloper + " : Jongyeol");
             if(GUILayout.Button(values.Credit_Source)) Application.OpenURL("https://github.com/Jongye0l/State");
@@ -62,20 +57,12 @@ namespace State {
             if(Settings.AutoTile) AddSettingToggle(ref Settings.HideAutoTile, values.Setting_HideAutoTile);
         }
 
-        private void AddSettingToggle(ref bool value, string text) {
-            if(GUILayout.Toggle(value, text)) {
-                if(!value) {
-                    value = true;
-                    Settings.Save();
-                }
-            } else if(value) {
-                value = false;
-                Settings.Save();
-            }
+        private static void AddSettingToggle(ref bool value, string text) {
+            if(GUILayout.Toggle(value, text) == value) return;
+            value = !value;
+            Settings.Save();
         }
 
-        public static Values GetValues() {
-            return Overlayer.Main.Language == Language.Korean ? Values.Korean : Values.English;
-        }
+        public static Values GetValues() => RDString.language == SystemLanguage.Korean ? Values.Korean : Values.English;
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
-using Overlayer.Modules;
-using State;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -14,7 +12,6 @@ using State;
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: OverlayerModule("State", "1.0.0", typeof(Main))]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

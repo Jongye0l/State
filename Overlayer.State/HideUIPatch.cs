@@ -1,17 +1,16 @@
 ﻿using Overlayer.Core.Patches;
 using UnityEngine.UI;
 
-namespace State {
+namespace Overlayer.State {
     [LazyPatch("State.HideDebugUI", "scrShowIfDebug", "Update", Triggers = new[] { "State" })]
     public class HideUIPatch {
         private static readonly StateSettings Settings = StateSettings.Instance;
         private static bool _auto;
 
         public static void Prefix() {
-            if(Settings.GetHideAuto() && !Settings.GetHideAutoTile()) {
-                _auto = RDC.auto;
-                RDC.auto = false;
-            }
+            if(!Settings.GetHideAuto() || Settings.GetHideAutoTile()) return;
+            _auto = RDC.auto;
+            RDC.auto = false;
         }
         
         public static void Postfix(Text ___txt) {

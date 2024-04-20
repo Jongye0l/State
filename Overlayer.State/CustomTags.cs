@@ -1,57 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using Overlayer.Core.Tags;
 using Overlayer.Tags;
+using Overlayer.Tags.Attributes;
 
-namespace State {
+namespace Overlayer.State {
     public class CustomTags {
 
         private static readonly StateSettings Settings = StateSettings.Instance;
 
-        private static int GetStartTile() {
-            return Variables.StartTile;
-        }
-
-        private static int GetCurrentTile() {
-            return scrController.instance.currentSeqID + 1;
-        }
-
-        private static Dictionary<HitMargin, int> GetHitCount() {
-            Dictionary<HitMargin, int> HitCount = null;
-            switch (GCS.difficulty) {
-                case Difficulty.Lenient:
-                    HitCount = Variables.LenientCounts;
-                    break;
-                case Difficulty.Normal:
-                    HitCount = Variables.NormalCounts;
-                    break;
-                case Difficulty.Strict:
-                    HitCount = Variables.StrictCounts;
-                    break;
-            }
-            return HitCount;
+        private static int[] GetHitCount() {
+            return scrMistakesManager.hitMarginsCount;
         }
 
         public static bool IsAutoPlayTile() {
-            return scrController.instance.currFloor != null &&
-                   scrController.instance.currFloor.nextfloor != null &&
+            return scrController.instance.currFloor &&
+                   scrController.instance.currFloor.nextfloor &&
                    scrController.instance.currFloor.nextfloor.auto;
         }
 
-        private static bool IsPurePerfect(Dictionary<HitMargin, int> HitCount) {
+        private static bool IsPurePerfect(int[] HitCount) {
             return GCS.hitMarginLimit == HitMarginLimit.PurePerfectOnly ||
-                   HitCount[HitMargin.VeryEarly] + HitCount[HitMargin.TooEarly] + HitCount[HitMargin.EarlyPerfect] +
-                   HitCount[HitMargin.LatePerfect] + HitCount[HitMargin.TooLate] + HitCount[HitMargin.VeryLate] == 0;
+                   HitCount[(int) HitMargin.VeryEarly] + HitCount[(int) HitMargin.TooEarly] + HitCount[(int) HitMargin.EarlyPerfect] +
+                   HitCount[(int) HitMargin.LatePerfect] + HitCount[(int) HitMargin.TooLate] + HitCount[(int) HitMargin.VeryLate] == 0;
         }
 
-        private static bool IsPerfect(Dictionary<HitMargin, int> HitCount) {
+        private static bool IsPerfect(int[] HitCount) {
             return GCS.hitMarginLimit == HitMarginLimit.PerfectsOnly ||
-                   HitCount[HitMargin.VeryEarly] + HitCount[HitMargin.VeryLate] == 0;
+                   HitCount[(int) HitMargin.VeryEarly] + HitCount[(int) HitMargin.VeryLate] == 0;
         }
 
         private static bool IsDeath() {
             scrController instance = scrController.instance;
-            return instance != null && instance.mistakesManager.GetHits(HitMargin.FailOverload) +
+            return instance && instance.mistakesManager.GetHits(HitMargin.FailOverload) +
                 instance.mistakesManager.GetHits(HitMargin.FailMiss) != 0;
         }
 
@@ -60,11 +39,11 @@ namespace State {
             try {
                 string value;
                 bool colored = false;
-                int StartTile = GetStartTile();
-                int CurrentTile = GetCurrentTile();
-                Dictionary<HitMargin, int> HitCount = GetHitCount();
+                int startTile = Tile.StartTile;
+                int currentTile = scrController.instance.currentSeqID + 1;
+                int[] hitCount = GetHitCount();
                 Values values = Main.GetValues();
-                if(Settings.CurrentStart && StartTile == CurrentTile) value = values.State_Wait;
+                if(Settings.CurrentStart && startTile == 0 || startTile == currentTile) value = values.State_Wait;
                 else if(Settings.AutoTile && IsAutoPlayTile()) {
                     value = "<color=#FF7F00>" + values.State_AutoPlayTile;
                     colored = true;
@@ -72,22 +51,21 @@ namespace State {
                     value = "<color=#1BFF00>" + values.State_AutoPlay;
                     colored = true;
                 } else if(IsDeath()) value = values.State_Finish;
-                else if(IsPurePerfect(HitCount)) {
+                else if(IsPurePerfect(hitCount)) {
                     value = "<color=#FFDA00>" + values.State_PurePerfect;
                     colored = true;
-                } else if(IsPerfect(HitCount)) {
-                    if(HitCount[HitMargin.VeryEarly] + HitCount[HitMargin.TooEarly] +
-                       HitCount[HitMargin.TooLate] + HitCount[HitMargin.VeryLate] == 0) value = values.State_PerfectNoMiss;
-                    else value = values.State_Perfect;
-                } else if(HitCount[HitMargin.TooEarly] + HitCount[HitMargin.TooLate] == 0) value = values.State_NoMiss;
+                } else if(IsPerfect(hitCount)) {
+                    value = hitCount[(int) HitMargin.VeryEarly] + hitCount[(int) HitMargin.TooEarly] +
+                        hitCount[(int) HitMargin.TooLate] + hitCount[(int) HitMargin.VeryLate] == 0 ? values.State_PerfectNoMiss : values.State_Perfect;
+                } else if(hitCount[(int) HitMargin.TooEarly] + hitCount[(int) HitMargin.TooLate] == 0) value = values.State_NoMiss;
                 else value = values.State_Clear;
-                if(values == Values.Korean && CurrentTile != scrLevelMaker.instance.listFloors.Count) value += " 중";
-                if(Settings.MidStart && StartTile != 1) value += values.State_MidStart;
+                if(values == Values.Korean && currentTile != scrLevelMaker.instance.listFloors.Count) value += " 중";
+                if(Settings.MidStart && startTile != 1 || startTile != 0) value += values.State_MidStart;
                 if(colored) value += "</color>";
                 return value;
             }
             catch (Exception e) {
-                Main.Instance.Log(e);
+                Main.Logger.LogException(e);
                 return "<color=#FF0000>오류</color>";
             }
         }

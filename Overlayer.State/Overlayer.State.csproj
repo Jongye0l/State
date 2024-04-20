@@ -106,7 +106,7 @@
           <HintPath>D:\SteamLibrary\steamapps\common\A Dance of Fire and Ice\A Dance of Fire and Ice_Data\Managed\Ookii.Dialogs.dll</HintPath>
         </Reference>
         <Reference Include="Overlayer">
-          <HintPath>C:\Users\bcpjy\Desktop\default\Overlayer.dll</HintPath>
+          <HintPath>C:\Users\bcpjy\Desktop\Overlayer_v3.6.0\Overlayer.dll</HintPath>
         </Reference>
         <Reference Include="Purchasing.Common">
           <HintPath>D:\SteamLibrary\steamapps\common\A Dance of Fire and Ice\A Dance of Fire and Ice_Data\Managed\Purchasing.Common.dll</HintPath>
@@ -503,7 +503,6 @@
         <Compile Include="Main.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
         <Compile Include="StateSettings.cs" />
-        <Compile Include="TagPatch.cs" />
         <Compile Include="Values.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
